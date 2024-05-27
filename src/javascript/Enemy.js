@@ -12,9 +12,9 @@ export default class Enemy {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 
-    move(xvelocity, yvelocity) {
-        this.x += xvelocity;
-        this.y += yvelocity;
+    move(xVelocity, yVelocity) {
+        this.x += xVelocity;
+        this.y += yVelocity;
     }
 
     collideWith(sprite) {

@@ -70,4 +70,21 @@ export default class EnemyController {
             }
         }
 
+        moveDown(newDirection) {
+            this.xVelocity = 0;
+            this.yVelocity = this.defaultYVelocity;
+            if(this.moveDownTimer <= 0){
+                this.currentDirection = newDirection;
+                return true;
+            }
+            return false;
+        }
+
+        drawEnemies(ctx){
+            this.enemyRows.flat().forEach((enemy) => {
+                enemy.move(this.xVelocity, this.yVelocity);
+                enemy.draw(ctx);
+            });
+        }
+        happy = () => {};
 }
