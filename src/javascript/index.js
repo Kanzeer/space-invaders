@@ -1,3 +1,6 @@
+import EnemyController from './EnemyController';
+import BulletController from './BulletController';
+import Player from './Player';
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
