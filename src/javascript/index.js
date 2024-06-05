@@ -1,9 +1,9 @@
-import EnemyController from './EnemyController';
-import BulletController from './BulletController';
-import Player from './Player';
-import EnemyController from './EnemyController';
-const canvas = document.getElementById('game');
-const ctx = canvas.getContext('2d');
+import EnemyController from "./EnemyController.js";
+import BulletController from "./BulletController.js";
+import Player from "./Player.js";
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
 canvas.width = 600;
 canvas.height = 600;
@@ -11,59 +11,60 @@ canvas.height = 600;
 const background = new Image();
 background.src = "./src/assets/images/space.png";
 
-const playerBulletController = new BulletController(canvas, 10, "whuthite", true);
-const enemyBulletController = new EnemyController(canvas, 4, "red", false);
+const enemyBulletController = new BulletController(canvas, 4, "red", false);
+const playerBulletController = new BulletController(canvas, 10, "white", true);
 
-const EnemyController = new EnemyController(
-    canvas,
-    enemyBulletController,
-    enemyBulletController
+const enemyController = new EnemyController(
+  canvas,
+  enemyBulletController,
+  playerBulletController
 );
 
-const player = new Player(canvas, 3, playerBulletController)
+const player = new Player(canvas, 10, playerBulletController);
 
 let isGameOver = false;
 let didWin = false;
 
 function game() {
-    checkGameOver();
-    ctx.drawIamge(background, 0, 0, canvas.width, canvas.height);
-    displayGameOver();
+  checkGameOver();
+  ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+  displayGameOver();
 
-    if(!isGameOver) {
-        enemyBulletController.draw(ctx);
-        playerBulletController.draw(ctx);
-        EnemyController.draw(ctx);
-    }
-}
-
-function checkGameOver() {
-    if(isGameOver) {
-        return;
-    }
-
-    if(enemyBulletController.collideWith(player)) {
-        isGameOver = true;
-    }
-
-    if(EnemyController.collideWith(player)) {
-        isGameOver = true;
-    }
-
-    if(EnemyController.enemyRows.length === 0) {
-        didWin = true;
-        isGameOver = true;
-    }
+  if(!isGameOver) {
+    enemyController.draw(ctx);
+    player.draw(ctx);
+    playerBulletController.draw(ctx);
+    enemyBulletController.draw(ctx);
+  }
 }
 
 function displayGameOver() {
-    if(isGameOver) {
-        let text = didWin ? "Você ganhou" : "Game Over";
-        let textOffset = didWin ? 5 : 3.6;
-        ctx.fillStyle = "white";
-        ctx.font = "35px 'Press Start 2P'";
-        ctx.fillText(text, canvas.width / textOffset, canvas.height / 2);
-    }
+  if(isGameOver){
+    let  text = didWin ? "Você Ganhou!" : "Game Over";
+    let textOffset = didWin ? 5 : 3.6;
+    ctx.fillStyle = "white";
+    ctx.font = "35px 'Press Start 2P'";
+    ctx.fillText(text, canvas.width / textOffset, canvas.height / 2);
+  }
 }
 
-setInterval(game, 1000 / 600);
+function checkGameOver() {
+  if(isGameOver)  {
+    return;
+  }
+
+  if(enemyBulletController.collideWith(player)) {
+    isGameOver = true;
+  }
+
+  if(enemyController.collideWith(player)) {
+    isGameOver = true;
+  }
+
+  if(enemyController.enemyRows.length === 0) {
+    didWin = true;
+    isGameOver = true;
+  }
+}
+
+setInterval(game, 1000 / 60);
